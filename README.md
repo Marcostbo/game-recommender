@@ -1,1 +1,1 @@
-# game_recommender
+# Game recommender (Database via Twitch API)
