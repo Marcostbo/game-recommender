@@ -19,3 +19,15 @@ body = {
 
 r = requests.post('https://id.twitch.tv/oauth2/token', body)
 ```
+Agora é possivel criar o dicionário headers para acesso na API.
+
+```
+keys = r.json()
+
+headers = {
+    'Client-ID': client_id,
+    'Authorization': 'Bearer ' + keys['access_token']
+}
+
+app_token = headers['Authorization']
+```
