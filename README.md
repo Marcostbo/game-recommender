@@ -31,45 +31,23 @@ headers = {
 
 app_token = headers['Authorization']
 ```
-A classe IGBDWrapper acessa a API para o endpoint desejado
+
+
+Através da documentação da Twitch API, podemos fazer a requisição das informações necessárias, bem como aplicar filtros para selecionar jogos com características específicas.Será retornado: Nome, Categoria, Data e Resumo para os jogos lançados após 2014 para PS4 (Código 48) ou XONE (Código 49). A instância da classe IGBDWrapper acessa a API para o endpoint desejado.
+
+Para mais informações a respeito dos dados e filtros disponíveis, acesse a documentação da API em https://api-docs.igdb.com/#about
 
 ```
-from requests import post
-from requests.models import Request, Response
+wrapper = IGDBWrapper(headers['Client-ID'], keys['access_token'])
 
-API_URL = "https://api.igdb.com/v4/"
+def get_game_data(page, page_elements):
+    byte_array = wrapper.api_request(
+                'games',
+                f'fields name, category, first_release_date, summary; offset {page*page_elements}; \
+                limit {page_elements}; where (release_dates.platform = (48, 49) & release_dates.y >= 2014);;'
+              )
+    game_data = byte_array.json()
+    return game_data
 
-class IGDBWrapper:
-    def __init__(self, client_id:str, auth_token:str) -> None:
-        self.client_id = client_id
-        self.auth_token = auth_token
 
-    def api_request(self, endpoint:str, query:str) -> Response:
-        """
-        Recebe um endpoint e a APIcalypse query e retorna a resposta API.
-        """
-        url = IGDBWrapper._build_url(endpoint)
-        params = self._compose_request(query)
-
-        response = post(url, **params)
-        response.raise_for_status()
-
-        return response
-
-    @staticmethod
-    def _build_url(endpoint:str='') -> str:
-        return ('%s%s' % (API_URL, endpoint))
-
-    def _compose_request(self, query:str) -> Request:
-       
-        request_params = {
-            'headers': {
-                'Client-ID': self.client_id,
-                'Authorization': ('Bearer %s' % (self.auth_token)),
-            }
-        }
-
-        if isinstance(query, str):
-            request_params['data'] = query
-            return request_params
 ```
