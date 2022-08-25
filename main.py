@@ -13,13 +13,14 @@ games.read_data(path=path)
 final_time = time.time()
 file_elapsed_time = final_time - start_time
 
-# STEP 2: Recommendations
+# STEP 2: Calculate Cosine Similarities
 start_time = time.time()
 
 recommender = Recommender(game_data=games.data)
 recommender.create_tfidf_matrix()
 recommender.create_cosine_similarities()
 
+# STEP 3: Get recommendations
 desired_item_name = 'God of War'
 desired_item_id = games.data.loc[games.data['name'] == desired_item_name]['id'].values[0]
 
