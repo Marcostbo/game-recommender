@@ -32,7 +32,6 @@ headers = {
 app_token = headers['Authorization']
 ```
 
-
 Através da documentação da Twitch API, podemos fazer a requisição das informações necessárias, bem como aplicar filtros para selecionar jogos com características específicas.Será retornado: Nome, Categoria, Data e Resumo para os jogos lançados após 2014 para PS4 (Código 48) ou XONE (Código 49). A instância da classe IGBDWrapper acessa a API para o endpoint desejado.
 
 Para mais informações a respeito dos dados e filtros disponíveis, acesse a documentação da API em https://api-docs.igdb.com/#about
